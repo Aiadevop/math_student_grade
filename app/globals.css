@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/* Estilos personalizados para mejorar la legibilidad */
+@layer components {
+  /* Estilos para los select dropdowns */
+  select option {
+    background-color: white !important;
+    color: #374151 !important; /* text-gray-700 */
+    padding: 8px 12px;
+  }
+  
+  select option:hover {
+    background-color: #f3f4f6 !important; /* bg-gray-100 */
+  }
+  
+  /* Mejorar contraste en los inputs */
+  input, select {
+    background-color: white !important;
+    color: #1f2937 !important; /* text-gray-800 */
+  }
+  
+  /* Estilos para el placeholder */
+  input::placeholder {
+    color: #9ca3af !important; /* text-gray-400 */
+  }
+  
+  /* Mejorar el contraste de los bordes */
+  .border-blue-200 {
+    border-color: #bfdbfe !important;
+  }
+  
+  .border-green-200 {
+    border-color: #bbf7d0 !important;
+  }
+  
+  .border-purple-200 {
+    border-color: #c4b5fd !important;
+  }
+  
+  /* Colores de fondo más suaves */
+  .bg-blue-50\/50 {
+    background-color: rgba(239, 246, 255, 0.5) !important;
+  }
+  
+  .bg-green-50\/50 {
+    background-color: rgba(240, 253, 244, 0.5) !important;
+  }
+  
+  .bg-purple-50\/50 {
+    background-color: rgba(250, 245, 255, 0.5) !important;
+  }
+}
