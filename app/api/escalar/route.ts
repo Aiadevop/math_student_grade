@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function ejecutarScriptPython(scriptPath: string, datosJson: string): Promise<any> {
+function ejecutarScriptPython(scriptPath: string, datosJson: string): Promise<Record<string, unknown>> {
   return new Promise((resolve, reject) => {
     // Ejecutar script de Python
     const pythonProcess = spawn('python', [scriptPath], {

@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import EducationalForm from '../src/components/EducationalForm';
 import ResultsDisplay from '../src/components/ResultsDisplay';
+import { FormData } from '../src/types';
 
 export default function Home() {
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<FormData | null>(null);
   const [showResults, setShowResults] = useState(false);
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: FormData) => {
     setFormData(data);
     setShowResults(true);
   };
@@ -35,7 +36,7 @@ export default function Home() {
             <EducationalForm onSubmit={handleFormSubmit} />
           ) : (
             <ResultsDisplay 
-              data={formData} 
+              data={formData!} 
               onReset={handleReset}
             />
           )}

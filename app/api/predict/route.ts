@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       errorOutput += data.toString();
     });
     
-    return new Promise((resolve, reject) => {
+    return new Promise<NextResponse>((resolve) => {
       pythonProcess.on('close', (code) => {
         console.log('🐍 Proceso Python terminado con código:', code);
         
