@@ -13,10 +13,10 @@ export default function Home() {
     setShowResults(true);
   };
 
-  // const handleReset = () => {
-  //   setFormData(null);
-  //   setShowResults(false);
-  // };
+  const handleReset = () => {
+    setFormData(null);
+    setShowResults(false);
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-400 via-blue-300 to-indigo-300 p-4">
@@ -31,15 +31,14 @@ export default function Home() {
         </header>
 
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <EducationalForm onSubmit={handleFormSubmit} />
-          {/* {!showResults ? (
+          {!showResults ? (
             <EducationalForm onSubmit={handleFormSubmit} />
           ) : (
             <ResultsDisplay 
               data={formData} 
               onReset={handleReset}
             />
-          )} */}
+          )}
         </div>
       </div>
     </main>

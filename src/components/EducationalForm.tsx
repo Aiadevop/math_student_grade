@@ -9,8 +9,8 @@ interface EducationalFormProps {
 
 export default function EducationalForm({ onSubmit }: EducationalFormProps) {
   const [formData, setFormData] = useState<Partial<FormData>>({
-    reading_score: undefined,
-    writing_score: undefined,
+    reading_score: 0,
+    writing_score: 0,
     lunch: 1,
     race_ethnicity_group_E: 0,
     test_preparation_course: 0,
@@ -53,10 +53,75 @@ export default function EducationalForm({ onSubmit }: EducationalFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const escalarDatos = async (datos: FormData): Promise<FormData> => {
+    try {
+      console.log('🔍 Enviando datos para escalar:', datos);
+      
+      // Ejecutar script de Python para escalar datos
+      const response = await fetch('/api/escalar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datos)
+      });
+      
+      console.log('📡 Respuesta del servidor:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Error en la respuesta:', errorText);
+        throw new Error(`Error al escalar datos: ${response.status} ${response.statusText}`);
+      }
+      
+      const datosEscalados = await response.json();
+      console.log('✅ Datos escalados recibidos:', datosEscalados);
+      return datosEscalados;
+    } catch (error) {
+      console.error('❌ Error al escalar datos:', error);
+      // Si falla el escalado, devolver datos originales
+      return datos;
+    }
+  };
+
+  const hacerPrediccion = async (datosEscalados: FormData): Promise<FormData> => {
+    try {
+      console.log('🎯 Enviando datos escalados para predicción:', datosEscalados);
+      
+      // Ejecutar script de Python para predicción
+      const response = await fetch('/api/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosEscalados)
+      });
+      
+      console.log('📡 Respuesta de predicción:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Error en predicción:', errorText);
+        throw new Error(`Error en predicción: ${response.status} ${response.statusText}`);
+      }
+      
+      const resultadoPrediccion = await response.json();
+      console.log('✅ Predicción recibida:', resultadoPrediccion);
+      return resultadoPrediccion;
+    } catch (error) {
+      console.error('❌ Error al hacer predicción:', error);
+      // Si falla la predicción, devolver datos escalados
+      return datosEscalados;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🚀 Formulario enviado');
     
     if (validateForm()) {
+      console.log('✅ Formulario válido');
+      
       // Asegurar que todos los campos tengan valores numéricos válidos
       const completeData: FormData = {
         reading_score: formData.reading_score !== undefined && formData.reading_score !== null ? formData.reading_score : 0,
@@ -67,7 +132,19 @@ export default function EducationalForm({ onSubmit }: EducationalFormProps) {
         gender: formData.gender || 0,
         parental_level_of_education_high_school: formData.parental_level_of_education_high_school || 0
       };
-      onSubmit(completeData);
+      
+      console.log('📋 Datos completos preparados:', completeData);
+      
+      // Escalar datos y hacer predicción
+      const datosEscalados = await escalarDatos(completeData);
+      console.log('📤 Datos escalados obtenidos:', datosEscalados);
+      
+      // Hacer predicción con los datos escalados
+      const resultadoCompleto = await hacerPrediccion(datosEscalados);
+      console.log('📤 Enviando resultado completo al componente padre:', resultadoCompleto);
+      onSubmit(resultadoCompleto);
+    } else {
+      console.log('❌ Formulario inválido');
     }
   };
 
