@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Script simple para escalar datos del formulario educativo usando StandardScaler
+Script simple para validar datos del formulario educativo
 con los parámetros exactos del modelo original (solo variables utilizadas)
 """
 
@@ -10,9 +10,9 @@ import pandas as pd
 import numpy as np
 import sys
 
-def escalar_datos_formulario(datos_json):
+def validar_datos_formulario(datos_json):
     """
-    Preparar los datos del formulario sin escalar (el modelo fue entrenado sin escalar)
+    Validar y preparar los datos del formulario (el modelo fue entrenado sin escalar)
     """
     try:
         # Cargar datos desde JSON
@@ -23,19 +23,19 @@ def escalar_datos_formulario(datos_json):
                               'reading_score', 'writing_score', 'race_ethnicity_group_E', 
                               'parental_level_of_education_high_school']
         
-        # NO escalar las variables - usar valores originales
+        # Validar y convertir las variables a float
         resultado = datos.copy()
         for var in variables_numericas:
             resultado[var] = float(datos[var])
         
-        # Agregar información sobre las variables (sin escalar)
-        resultado['_variables_escaladas'] = variables_numericas
-        resultado['_escalado'] = False  # Indicar que no se escalaron
+        # Agregar información sobre las variables validadas
+        resultado['_variables_validadas'] = variables_numericas
+        resultado['_validado'] = True  # Indicar que se validaron correctamente
         
         return resultado
         
     except Exception as e:
-        return {"error": f"Error al escalar datos: {str(e)}"}
+        return {"error": f"Error al validar datos: {str(e)}"}
 
 if __name__ == "__main__":
     # Leer datos desde stdin o argumento
@@ -44,8 +44,8 @@ if __name__ == "__main__":
     else:
         datos_json = sys.stdin.read().strip()
     
-    # Escalar datos
-    resultado = escalar_datos_formulario(datos_json)
+    # Validar datos
+    resultado = validar_datos_formulario(datos_json)
     
     # Devolver resultado como JSON
     print(json.dumps(resultado, ensure_ascii=False))

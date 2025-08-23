@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('🌐 API de escalado recibida');
+    console.log('🌐 API de validación recibida');
     
     // Obtener datos del formulario
     const datos = await request.json();
@@ -29,20 +29,20 @@ export async function POST(request: NextRequest) {
     
     // Convertir datos a JSON string
     const datosJson = JSON.stringify(datos);
-    console.log('📤 Enviando datos a Python:', datosJson);
+    console.log('📤 Enviando datos para validación:', datosJson);
     
     // Ruta al script de Python
-    const scriptPath = path.join(process.cwd(), 'escalar_datos.py');
+    const scriptPath = path.join(process.cwd(), 'validar_datos.py');
     console.log('🐍 Ruta del script Python:', scriptPath);
     
     // Ejecutar script de Python
     const resultado = await ejecutarScriptPython(scriptPath, datosJson);
-    console.log('✅ Resultado de Python:', resultado);
+    console.log('✅ Datos validados:', resultado);
     
     return NextResponse.json(resultado);
     
   } catch (error) {
-    console.error('❌ Error en API de escalado:', error);
+    console.error('❌ Error en API de validación:', error);
     return NextResponse.json(
       { error: 'Error interno del servidor' },
       { status: 500 }

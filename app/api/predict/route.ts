@@ -6,17 +6,17 @@ export async function POST(request: NextRequest) {
   try {
     console.log('🎯 API de predicción recibida');
     
-    const datosEscalados = await request.json();
-    console.log('📥 Datos escalados recibidos:', datosEscalados);
+    const datosValidados = await request.json();
+    console.log('📥 Datos validados recibidos:', datosValidados);
     
-    // Verificar que tenemos los datos escalados necesarios
+    // Verificar que tenemos los datos validados necesarios
     const variablesRequeridas = [
       'gender', 'lunch', 'test_preparation_course', 'reading_score', 
       'writing_score', 'race_ethnicity_group_E', 'parental_level_of_education_high_school'
     ];
     
     const faltantes = variablesRequeridas.filter(varName => 
-      datosEscalados[varName] === undefined || datosEscalados[varName] === null
+      datosValidados[varName] === undefined || datosValidados[varName] === null
     );
     
     if (faltantes.length > 0) {
@@ -31,13 +31,13 @@ export async function POST(request: NextRequest) {
     
     // Preparar datos para el modelo (en el orden correcto)
     const datosParaModelo = [
-      datosEscalados.gender,
-      datosEscalados.lunch,
-      datosEscalados.test_preparation_course,
-      datosEscalados.reading_score,
-      datosEscalados.writing_score,
-      datosEscalados.race_ethnicity_group_E,
-      datosEscalados.parental_level_of_education_high_school
+      datosValidados.gender,
+      datosValidados.lunch,
+      datosValidados.test_preparation_course,
+      datosValidados.reading_score,
+      datosValidados.writing_score,
+      datosValidados.race_ethnicity_group_E,
+      datosValidados.parental_level_of_education_high_school
     ];
     
     console.log('📤 Enviando datos al modelo:', datosParaModelo);
@@ -76,9 +76,9 @@ export async function POST(request: NextRequest) {
           const prediccion = JSON.parse(resultado.trim());
           console.log('✅ Predicción recibida:', prediccion);
           
-          // Agregar los datos escalados originales al resultado
+          // Agregar los datos validados originales al resultado
           const resultadoCompleto = {
-            ...datosEscalados,
+            ...datosValidados,
             math_score_prediction: prediccion.math_score,
             confidence: prediccion.confidence || null
           };
