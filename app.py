@@ -26,10 +26,16 @@ except ImportError:
 app = Flask(__name__)
 CORS(app)
 
+# Variable global para el modelo
+modelo_global = None
+ruta_modelo_global = None
+
 def cargar_modelo():
     """
     Cargar el modelo entrenado lin_reg_model_opt
     """
+    global modelo_global, ruta_modelo_global
+    
     try:
         # Buscar el archivo del modelo en diferentes ubicaciones posibles
         posibles_rutas = [
@@ -43,6 +49,16 @@ def cargar_modelo():
         
         modelo = None
         ruta_modelo = None
+        
+        # Debug: listar archivos disponibles
+        print("🔍 Archivos en el directorio actual:")
+        for item in os.listdir('.'):
+            print(f"  - {item}")
+        
+        if os.path.exists('models'):
+            print("🔍 Archivos en carpeta models:")
+            for item in os.listdir('models'):
+                print(f"  - {item}")
         
         for ruta in posibles_rutas:
             if Path(ruta).exists():
@@ -77,6 +93,10 @@ def cargar_modelo():
         
         if modelo is None:
             raise FileNotFoundError("No se pudo cargar el modelo desde ninguna ubicación")
+        
+        # Guardar en variables globales
+        modelo_global = modelo
+        ruta_modelo_global = ruta_modelo
         
         return modelo, ruta_modelo
         
@@ -170,15 +190,15 @@ def hacer_prediccion(datos_validados, modelo):
         raise
 
 # Cargar el modelo al iniciar la aplicación
-modelo = None
-ruta_modelo = None
+# modelo = None # Eliminado, ahora es global
+# ruta_modelo = None # Eliminado, ahora es global
 
 try:
-    modelo, ruta_modelo = cargar_modelo()
-    print(f"✅ Modelo cargado exitosamente desde: {ruta_modelo}")
+    cargar_modelo()
+    print(f"✅ Modelo cargado exitosamente desde: {ruta_modelo_global}")
 except Exception as e:
     print(f"❌ Error al cargar el modelo: {e}")
-    modelo = None
+    modelo_global = None
 
 @app.route('/')
 def index():
@@ -418,7 +438,7 @@ def predict():
         print('📥 Datos recibidos:', datos)
         
         # Verificar que el modelo esté cargado
-        if modelo is None:
+        if modelo_global is None:
             return jsonify({'error': 'Modelo no disponible'}), 500
         
         # Validar datos
@@ -426,7 +446,7 @@ def predict():
         print('✅ Datos validados:', datos_validados)
         
         # Hacer predicción
-        resultado_prediccion = hacer_prediccion(datos_validados, modelo)
+        resultado_prediccion = hacer_prediccion(datos_validados, modelo_global)
         print('✅ Predicción realizada:', resultado_prediccion)
         
         # Combinar datos validados con la predicción
@@ -459,7 +479,7 @@ def predict_direct():
         print('📥 Datos recibidos:', datos)
         
         # Verificar que el modelo esté cargado
-        if modelo is None:
+        if modelo_global is None:
             return jsonify({'error': 'Modelo no disponible'}), 500
         
         # Validar datos
@@ -467,7 +487,7 @@ def predict_direct():
         print('✅ Datos validados:', datos_validados)
         
         # Hacer predicción
-        resultado_prediccion = hacer_prediccion(datos_validados, modelo)
+        resultado_prediccion = hacer_prediccion(datos_validados, modelo_global)
         print('✅ Predicción realizada:', resultado_prediccion)
         
         # Combinar datos validados con la predicción
@@ -494,9 +514,46 @@ def health_check():
     """
     return jsonify({
         'status': 'healthy',
-        'model_loaded': modelo is not None,
-        'model_path': ruta_modelo
+        'model_loaded': modelo_global is not None,
+        'model_path': ruta_modelo_global
     })
+
+@app.route('/debug')
+def debug_info():
+    """
+    Endpoint de debug para obtener información detallada
+    """
+    try:
+        # Información del sistema
+        debug_info = {
+            'python_version': os.sys.version,
+            'current_directory': os.getcwd(),
+            'files_in_current_dir': os.listdir('.'),
+            'model_global_exists': modelo_global is not None,
+            'ruta_modelo_global': ruta_modelo_global,
+            'joblib_available': JOBLIB_AVAILABLE
+        }
+        
+        # Verificar si existe la carpeta models
+        if os.path.exists('models'):
+            debug_info['models_folder_exists'] = True
+            debug_info['files_in_models'] = os.listdir('models')
+        else:
+            debug_info['models_folder_exists'] = False
+            debug_info['files_in_models'] = []
+        
+        # Verificar archivos específicos
+        debug_info['model_file_exists'] = os.path.exists('models/lin_reg_model_opt.pkl')
+        debug_info['requirements_exists'] = os.path.exists('requirements_flask.txt')
+        debug_info['app_py_exists'] = os.path.exists('app.py')
+        
+        return jsonify(debug_info)
+        
+    except Exception as e:
+        return jsonify({
+            'error': str(e),
+            'error_type': type(e).__name__
+        }), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
