@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "app.py": {
-      "runtime": "python3.9",
-      "maxDuration": 30
-    }
-  },
   "routes": [
     {
       "src": "/health",
