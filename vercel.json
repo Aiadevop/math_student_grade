@@ -2,29 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.py",
+      "src": "view.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/health",
-      "dest": "app.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "app.py"
-    },
-    {
-      "src": "/predict",
-      "dest": "app.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "view.py"
     }
-  ],
-  "env": {
-    "PYTHONPATH": "."
-  }
+  ]
 }

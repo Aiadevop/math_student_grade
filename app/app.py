@@ -33,9 +33,11 @@ def cargar_modelo():
     try:
         # Buscar el archivo del modelo en diferentes ubicaciones posibles
         posibles_rutas = [
-            'models/lin_reg_model_opt.pkl',  # Primera opción: carpeta models
+            'app/models/lin_reg_model_opt.pkl',  # Primera opción: carpeta app/models
+            'models/lin_reg_model_opt.pkl',      # Segunda opción: carpeta models
             'model/lin_reg_model_opt.pkl',
-            'lin_reg_model_opt.pkl',         # Fallback: raíz del proyecto
+            'lin_reg_model_opt.pkl',             # Fallback: raíz del proyecto
+            '../app/models/lin_reg_model_opt.pkl',
             '../models/lin_reg_model_opt.pkl',
             '../model/lin_reg_model_opt.pkl',
             '../lin_reg_model_opt.pkl'
