@@ -1,14 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.9"
-      }
+  "functions": {
+    "app.py": {
+      "runtime": "python3.9",
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
     {
       "src": "/health",
@@ -27,12 +24,6 @@
       "dest": "app.py"
     }
   ],
-  "functions": {
-    "app.py": {
-      "runtime": "python3.9",
-      "maxDuration": 30
-    }
-  },
   "env": {
     "PYTHONPATH": "."
   }
