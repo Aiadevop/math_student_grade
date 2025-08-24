@@ -188,6 +188,13 @@ El proyecto está configurado para desplegarse en Render:
 
 ## 📊 Modelo de Machine Learning
 
+### 📚 Dataset y Fuentes de Datos
+- **Origen**: [Kaggle - Students Performance in Exams](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams)
+- **Tamaño**: 1000 estudiantes
+- **Variables**: 8 características (3 numéricas, 5 categóricas)
+- **Licencia**: Permite uso comercial y no comercial
+- **Calidad**: Datos limpios y bien estructurados
+
 ### Algoritmo
 - **Regresión Lineal**: Modelo simple pero efectivo para predicciones
 - **Optimización**: Hiperparámetros ajustados para mejor rendimiento
@@ -197,6 +204,57 @@ El proyecto está configurado para desplegarse en Render:
 - **R² Score**: Indica la calidad de las predicciones
 - **Validación cruzada**: Robustez del modelo verificada
 - **Datos de entrenamiento**: Basado en dataset educativo real
+
+### 📈 Proceso de Entrenamiento
+
+El modelo fue entrenado siguiendo un proceso riguroso y sistemático de análisis de datos:
+
+#### 🔍 **1. Análisis Exploratorio de Datos (EDA)**
+- **Dataset**: 1000 estudiantes con 8 variables (3 numéricas, 5 categóricas)
+- **Variables originales**: Género, raza/etnia, nivel educativo de padres, tipo de almuerzo, curso de preparación, puntuaciones de matemáticas, lectura y escritura
+- **Análisis de correlaciones**: Identificación de relaciones entre variables
+- **Distribución de datos**: Estudio de patrones y outliers
+
+#### 🧹 **2. Preprocesamiento de Datos**
+- **Limpieza de nombres**: Estandarización de nombres de columnas
+- **Encoding de variables categóricas**:
+  - **Label Encoding** para variables binarias (género, almuerzo, curso de preparación)
+  - **One-Hot Encoding** para variables multiclase (raza/etnia, nivel educativo)
+- **Eliminación de multicolinealidad**: Drop de primera categoría en One-Hot Encoding
+
+#### 📊 **3. Feature Engineering**
+- **Selección de variables relevantes**: Filtrado por correlación > 0.1 con la variable objetivo
+- **Variables finales seleccionadas**:
+  - `reading_score` (corr: 0.818) - **Muy alta correlación**
+  - `writing_score` (corr: 0.803) - **Muy alta correlación**
+  - `lunch` (corr: 0.351) - **Correlación moderada**
+  - `race_ethnicity_group_E` (corr: 0.206) - **Correlación baja**
+  - `test_preparation_course` (corr: 0.178) - **Correlación baja**
+  - `gender` (corr: 0.168) - **Correlación baja**
+
+#### ⚖️ **4. Normalización de Datos**
+- **StandardScaler**: Estandarización de todas las variables numéricas
+- **Media = 0, Desviación = 1**: Para mejorar la convergencia del modelo
+- **Parámetros guardados**: Para aplicar la misma transformación en producción
+
+#### 🤖 **5. Entrenamiento del Modelo**
+- **Algoritmo seleccionado**: Regresión Lineal (por la fuerte linealidad observada en los datos)
+- **Validación cruzada**: Para evaluar la robustez del modelo
+- **Optimización de hiperparámetros**: Ajuste fino del modelo
+- **Métricas de evaluación**: R² Score, RMSE, MAE
+
+#### 📈 **6. Resultados y Validación**
+- **R² Score**: Indica la calidad de las predicciones
+- **Validación en conjunto de prueba**: Evaluación de la generalización
+- **Análisis de residuos**: Verificación de supuestos del modelo lineal
+
+> 📖 **Nota**: Puedes revisar el proceso completo de entrenamiento en el archivo `ESTUDIO_DE_DATOS_Predicción_nota_estudiantes.ipynb` y `DS_NL_Regresión_Lineal_Notebook_resumen`
+
+#### 🎯 **Insights Clave del Análisis**
+- **Lectura y escritura** son los predictores más fuertes de matemáticas
+- **Tipo de almuerzo** tiene una influencia moderada en el rendimiento
+- **Variables sociales** tienen menor impacto que las académicas
+- **Modelo lineal** es apropiado debido a las fuertes correlaciones lineales observadas
 
 ## 🛠️ Desarrollo
 
