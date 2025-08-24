@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Educativo - Predicción de Calificaciones</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Predicción de Calificaciones Matemáticas</h1>
+        
+        <form id="predictionForm" method="POST" action="/predict">
+            <div class="form-group">
+                <label for="gender">Género:</label>
+                                 <select id="gender" name="gender" required>
+                     <option value="0">Femenino</option>
+                     <option value="1">Masculino</option>
+                 </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="lunch">Tipo de almuerzo:</label>
+                                 <select id="lunch" name="lunch" required>
+                     <option value="1">Estándar</option>
+                     <option value="0">Gratuito/Reducido</option>
+                 </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="test_preparation_course">Curso de preparación:</label>
+                                 <select id="test_preparation_course" name="test_preparation_course" required>
+     
+                     <option value="0">Ninguno</option>
+                     <option value="1">Completado</option>
+                 </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="reading_score">Puntuación de lectura (0-100):</label>
+                <input type="number" id="reading_score" name="reading_score" min="0" max="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="writing_score">Puntuación de escritura (0-100):</label>
+                <input type="number" id="writing_score" name="writing_score" min="0" max="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="race_ethnicity_group_E">Grupo étnico E:</label>
+                <select id="race_ethnicity_group_E" name="race_ethnicity_group_E" required>
+                    <option value="0">No</option>
+                    <option value="1">Sí</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="parental_level_of_education_high_school">Nivel educativo de los padres (High School):</label>
+                <select id="parental_level_of_education_high_school" name="parental_level_of_education_high_school" required>
+     
+                    <option value="0">No</option>
+                    <option value="1">Sí</option>
+                </select>
+            </div>
+            
+            <button type="submit">🔮 Predecir Calificación</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+    
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
