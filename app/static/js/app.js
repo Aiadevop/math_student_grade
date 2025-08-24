@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         if (!validateForm()) {
-            showError('Por favor, completa todos los campos requeridos');
+            showError('⚠️ Por favor, completa todos los campos requeridos');
             return;
         }
         
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Mostrar indicador de carga
-        showSuccess('Procesando predicción...');
+        showSuccess('🔄 Procesando predicción...');
         
         // Enviar datos al servidor
         fetch('/predict', {
@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(result => {
             if (result.error) {
-                showError(`Error: ${result.error}`);
+                showError(`❌ Error: ${result.error}`);
             } else {
-                showSuccess(`✅ Predicción exitosa! Calificación matemática: ${result.math_score_prediction}/100`);
+                showSuccess(`🎯 ¡Predicción exitosa! Calificación matemática: ${result.math_score_prediction}/100`);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showError('Error de conexión con el servidor');
+            showError('🌐 Error de conexión con el servidor');
         });
     }
     
