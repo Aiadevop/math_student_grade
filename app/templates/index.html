@@ -13,6 +13,16 @@
         <form id="predictionForm" method="POST" action="/predict">
             <div class="form-grid">
                 <div class="form-group">
+                    <label for="reading_score">📖 Puntuación de lectura (0-100)</label>
+                    <input type="number" id="reading_score" name="reading_score" min="0" max="100" placeholder="Ej: 85" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="writing_score">✍️ Puntuación de escritura (0-100)</label>
+                    <input type="number" id="writing_score" name="writing_score" min="0" max="100" placeholder="Ej: 82" required>
+                </div>
+                
+                <div class="form-group">
                     <label for="gender">👤 Género</label>
                     <select id="gender" name="gender" required>
                         <option value="0">Femenino</option>
@@ -42,17 +52,8 @@
                         <option value="0">No</option>
                         <option value="1">Sí</option>
                     </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reading_score">📖 Puntuación de lectura (0-100)</label>
-                    <input type="number" id="reading_score" name="reading_score" min="0" max="100" placeholder="Ej: 85" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="writing_score">✍️ Puntuación de escritura (0-100)</label>
-                    <input type="number" id="writing_score" name="writing_score" min="0" max="100" placeholder="Ej: 82" required>
-                </div>
+                </div>              
+       
                 
                 <div class="form-group">
                     <label for="parental_level_of_education_high_school">🎓 Nivel educativo de los padres</label>

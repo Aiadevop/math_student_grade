@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (result.error) {
                 showError(`❌ Error: ${result.error}`);
             } else {
-                showSuccess(`🎯 ¡Predicción exitosa! Calificación matemática: ${result.math_score_prediction}/100`);
+                showSuccess(`🎯 ¡Predicción exitosa! Calificación matemática: ${result.math_score_prediction}/100 Fiabilidad: ${result.confidence*100}%` );
             }
         })
         .catch(error => {
