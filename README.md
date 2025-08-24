@@ -55,10 +55,10 @@ formulario-educativo/
 │   │       └── app.js         # JavaScript interactivo
 │   └── templates/
 │       └── index.html         # Plantilla principal
-├── models/
-│   └── lin_reg_model_opt.pkl  # Copia del modelo
 ├── requirements.txt           # Dependencias Python
 ├── render.yaml               # Configuración para Render
+├── ESTUDIO_DE_DATOS_Predicción_nota_estudiantes.ipynb  # Notebook de análisis
+├── DS_NL_Regresión_Lineal_Notebook_resumen.ipynb      # Notebook de resumen
 └── README.md                 # Este archivo
 ```
 
